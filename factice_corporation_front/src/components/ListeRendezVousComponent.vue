@@ -88,12 +88,12 @@ export default {
           isMatch = isMatch && selectedDate.toISOString().substring(0, 10) === rdvDate.toISOString().substring(0, 10);
         }
 
-        // Si un employé est sélectionné, vérifiez si c'est celui du rendez-vous
+        // Si un employé est sélectionné, on vérifie si c'est celui du rendez-vous
         if (this.selectedEmployer) {
           isMatch = isMatch && rdv.employe.id === this.selectedEmployer.id;
         }
 
-        // Si un client est sélectionné, vérifiez si c'est celui du rendez-vous
+        // Si un client est sélectionné, on vérifie si c'est celui du rendez-vous
         if (this.selectedClient) {
           isMatch = isMatch && rdv.client.id === this.selectedClient.id;
         }
