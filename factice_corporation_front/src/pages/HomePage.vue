@@ -1,12 +1,15 @@
 <template>
-    <NavbarComponent/>
+    <h1 class="bg-dark text-white text-center p-3">FacticeCorporation & Co</h1>
+    <ListeRendezVousComponent/>
 </template>
 
 <script>
-import NavbarComponent from "@/components/NavbarComponent.vue";
+import ListeRendezVousComponent from "@/components/ListeRendezVousComponent.vue";
 export default {
   name: "HomePage",
-  components: {NavbarComponent}
+  components: {
+      ListeRendezVousComponent
+  },
 }
 </script>
 
