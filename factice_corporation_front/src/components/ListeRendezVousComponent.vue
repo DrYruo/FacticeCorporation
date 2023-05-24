@@ -1,10 +1,10 @@
 <template>
     <div class="container-fluid">
         <div class="btn-group mb-3 d-flex justify-content-between">
-            <button class="btn btn-outline-dark" @click="sortRdv('all')">Tous les RDV</button>
-            <button class="btn btn-outline-dark" @click="sortRdv('date')">Trier par date</button>
-            <button class="btn btn-outline-dark" @click="sortRdv('employe')">Trier par employé</button>
-            <button class="btn btn-outline-dark" @click="sortRdv('client')">Trier par client</button>
+            <button class="btn" :class="{ 'btn-dark': currentSort === 'date', 'btn-outline-dark': currentSort !== 'date' }" @click="sortRdv('date')">Trier par date</button>
+            <button class="btn" :class="{ 'btn-dark': currentSort === 'employe', 'btn-outline-dark': currentSort !== 'employe' }" @click="sortRdv('employe')">Trier par employé</button>
+            <button class="btn" :class="{ 'btn-dark': currentSort === 'client', 'btn-outline-dark': currentSort !== 'client' }" @click="sortRdv('client')">Trier par client</button>
+            <button class="btn btn-primary" @click="sortRdv('all')">Tous les RDV</button>
         </div>
 
         <div class="d-flex justify-content-between mb-3">
@@ -46,14 +46,15 @@
 import { mapState } from 'vuex';
 import store from "@/Store";
 import { employes, clients, rdvList } from '@/assets/FakeDB';
+
 export default {
   name: "ListeRendezVousComponent",
-
   data() {
     return {
       selectedDate: '',
       selectedEmployer: null,
       selectedClient: null,
+      currentSort: '',
     }
   },
 
@@ -71,10 +72,31 @@ export default {
   }),
 
   methods: {
-    // eslint-disable-next-line no-unused-vars
-    sortRdv(sortBy) {
-      // Implémenter le tri en fonction de sortBy
-    },
+      sortRdv(sortBy) {
+          // Si le bouton actuellement sélectionné est cliqué à nouveau, annulez le tri.
+          if (this.currentSort === sortBy) {
+              this.currentSort = '';
+          } else {
+              this.currentSort = sortBy;
+          }
+
+          // Effectuez le tri approprié en fonction de currentSort.
+          switch(this.currentSort) {
+              case 'date':
+                  this.rdvList.sort((a, b) => a.date - b.date);
+                  break;
+              case 'employe':
+                  this.rdvList.sort((a, b) => a.employe.nom.localeCompare(b.employe.nom));
+                  break;
+              case 'client':
+                  this.rdvList.sort((a, b) => a.client.nom.localeCompare(b.client.nom));
+                  break;
+              default:
+                  // Dans le cas où aucun tri n'est sélectionné ou pour "all", remettre les rdv dans leur état original.
+                  this.rdvList = [...rdvList];
+                  break;
+          }
+      },
   }
 }
 </script>
